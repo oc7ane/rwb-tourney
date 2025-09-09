@@ -20,9 +20,9 @@ export namespace Bloxlink {
 
   export async function get(discordUserId: string) {
     // Mock return for testing
-    return {
+    /*return {
       robloxID: "9008204223",
-    };
+    };*/
 
     const url = `https://api.blox.link/v4/public/guilds/${GUILD_ID}/discord-to-roblox/${discordUserId}`;
 
