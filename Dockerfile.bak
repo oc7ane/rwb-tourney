@@ -1,0 +1,12 @@
+FROM mongo:7.0
+
+# Set environment variables  
+ENV MONGO_INITDB_ROOT_USERNAME=admin
+ENV MONGO_INITDB_ROOT_PASSWORD=password
+ENV MONGO_INITDB_DATABASE=lame
+
+# Expose MongoDB port
+EXPOSE 27017
+
+# Start MongoDB with replica set
+CMD ["mongod", "--replSet", "rs0", "--bind_ip_all"]

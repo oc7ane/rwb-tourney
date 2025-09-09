@@ -1,0 +1,25 @@
+{
+  "name": "rwb-tourney",
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "start": "bun src/index.ts",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "redis:insert": "bun src/scripts/insert-game.ts",
+    "db:clean": "rm -f tourney.db tourney.db-shm tourney.db-wal"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "discord.js": "^14.22.1",
+    "zod": "^4.1.5"
+  }
+}

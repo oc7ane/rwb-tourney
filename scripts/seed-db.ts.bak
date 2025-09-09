@@ -1,0 +1,78 @@
+import { MongoClient } from "mongodb";
+import * as dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
+
+const url = process.env.MONGO_URL;
+
+if (!url) {
+  throw new Error("MONGO_URL is not set");
+}
+
+const client = new MongoClient(url, {
+  sslValidate: false,
+});
+
+const dbName = "lame";
+
+async function seedDatabase() {
+  try {
+    console.log("Connecting to MongoDB...");
+    await client.connect();
+
+    const db = client.db(dbName);
+
+    // Check if games collection has any documents
+    const gamesCollection = db.collection("games");
+    const gameCount = await gamesCollection.countDocuments();
+
+    if (gameCount === 0) {
+      console.log("No games found. Creating initial game document...");
+
+      // Create initial game document
+      // You'll need to update these IDs with actual Discord channel/guild IDs
+      const initialGame = {
+        channel: process.env.GAME_CHANNEL_ID || "your_channel_id_here",
+        guild: process.env.GUILD_ID || "your_guild_id_here",
+        replyMessage: null,
+      };
+
+      await gamesCollection.insertOne(initialGame);
+      console.log("Initial game document created");
+    } else {
+      console.log(`Games collection already has ${gameCount} document(s)`);
+    }
+
+    // Check if leaderboards collection has any documents
+    const leaderboardsCollection = db.collection("leaderboards");
+    const leaderboardCount = await leaderboardsCollection.countDocuments();
+
+    if (leaderboardCount === 0) {
+      console.log("No leaderboards found. Creating initial leaderboard...");
+
+      const initialLeaderboard = {
+        name: "All Time",
+        description: "All time leaderboard",
+        createdAt: new Date(),
+      };
+
+      await leaderboardsCollection.insertOne(initialLeaderboard);
+      console.log("Initial leaderboard created");
+    } else {
+      console.log(
+        `Leaderboards collection already has ${leaderboardCount} document(s)`
+      );
+    }
+
+    console.log("Database seeding complete!");
+  } catch (error) {
+    console.error("Error seeding database:", error);
+  } finally {
+    await client.close();
+    console.log("MongoDB connection closed");
+  }
+}
+
+// Run the seed function
+seedDatabase().then(() => process.exit(0));
