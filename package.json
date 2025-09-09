@@ -9,7 +9,7 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f",
-    "redis:insert": "bun src/scripts/insert-game.ts",
+    "redis:insert": "bun scripts/insert-game.ts",
     "db:clean": "rm -f tourney.db tourney.db-shm tourney.db-wal"
   },
   "devDependencies": {
