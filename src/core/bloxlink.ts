@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export namespace Bloxlink {
-  const GUILD_ID = "476593983485902850";
+  const GUILD_ID = Bun.env.BLOXLINK_GUILD_ID;
 
   const SuccessResponse = z.object({
     robloxID: z.string(),
